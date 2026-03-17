@@ -82,3 +82,14 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+variable "log_analytics_workspace_id" {
+  description = "The ID of the Log Analytics workspace for diagnostics."
+  type        = string
+  default     = null
+}
+
+variable "enable_diagnostics" {
+  description = "Enable diagnostics for the Synapse Workspace."
+  type        = bool
+  default     = true
+}
