@@ -39,27 +39,3 @@ resource "azurerm_role_assignment" "synapse_access" {
   principal_id       = each.value.principal_id
   role_definition_id = try(each.value.role_definition_id, data.azurerm_role_definition.synapse_roles[each.key].id)
 }
-
-resource "azurerm_monitor_diagnostic_setting" "synapse_diagnostics" {
-  count                      = var.enable_diagnostics && var.log_analytics_workspace_id != null ? 1 : 0
-  name                       = "${var.name}-diagnostics"
-  target_resource_id         = azurerm_synapse_workspace.synapse.id
-  log_analytics_workspace_id = var.log_analytics_workspace_id
-
-  enabled_log {
-    category = "SynapseRbacOperations"
-  }
-
-  enabled_log {
-    category = "GatewayApiRequests"
-  }
-
-  enabled_log {
-    category = "BuiltinSqlReqsEnded"
-  }
-
-  metric {
-    category = "AllMetrics"
-    enabled  = true
-  }
-}

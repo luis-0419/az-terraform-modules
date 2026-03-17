@@ -26,19 +26,3 @@ resource "azurerm_bastion_host" "bastion" {
 
   tags = var.tags
 }
-
-resource "azurerm_monitor_diagnostic_setting" "bastion_diagnostics" {
-  count                      = var.enable_diagnostics && var.log_analytics_workspace_id != null ? 1 : 0
-  name                       = "${var.name}-diagnostics"
-  target_resource_id         = azurerm_bastion_host.bastion.id
-  log_analytics_workspace_id = var.log_analytics_workspace_id
-
-  enabled_log {
-    category = "BastionAuditLogs"
-  }
-
-  metric {
-    category = "AllMetrics"
-    enabled  = true
-  }
-}
